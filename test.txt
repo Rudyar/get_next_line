@@ -1,4 +1,4 @@
 salut !
 ca va
-ca va oui
-ca va non
+plutot oui
+oh non

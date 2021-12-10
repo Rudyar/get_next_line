@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:31 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 10:43:21 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/10 16:30:06 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ size_t	ft_strlen(char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	int	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 int	ft_strchr(char *s, char c)
@@ -56,7 +70,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		dst[i] = s1[i];
 		i++;
 	}
-	while (dst && s2[j])
+	while (dst && s2 && s2[j])
 	{
 		dst[i + j] = s2[j];
 		j++;
