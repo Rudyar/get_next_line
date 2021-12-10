@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:31 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/09 17:32:24 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/10 10:43:21 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	ft_strchr(char *s, char c)
 	while (s[i])
 	{
 		if (s[i] == c)
-			return (0);
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -51,12 +51,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	dst = malloc(sizeof(char) * (total_len + 1));
 	if (!dst)
 		return (NULL);
-	while (s1[i])
+	while (dst && s1[i])
 	{
 		dst[i] = s1[i];
 		i++;
 	}
-	while (s2[j])
+	while (dst && s2[j])
 	{
 		dst[i + j] = s2[j];
 		j++;
