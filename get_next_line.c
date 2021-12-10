@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 16:54:42 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/10 17:39:29 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*get_next_line(int fd)
 		stat = ft_strjoin(stat, buff);
 		free(buff);
 	}
-	stat = ft_trim_stat(stat);
 	line = make_line(stat);
+	stat = ft_trim_stat(stat);
 	return (line);
 }
