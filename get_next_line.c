@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 17:39:29 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/10 17:58:21 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ char	*ft_trim_stat(char *s)
 	char	*dst;
 
 	i = 0;
-	dst = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	dst = malloc(sizeof(char *) * (ft_strlen(s) + 1));
 	if (!dst)
 		return (NULL);
 	dst = ft_strcpy(dst, s);
 	while (s && s[i] != '\n')
 		i++;
 	i++;
-	s = malloc(sizeof(char) * (ft_strlen(dst) - i));
+	s = malloc(sizeof(char *) * (ft_strlen(dst) - i + 1));
 	if (!s)
 		return (NULL);
 	j = 0;
@@ -36,6 +36,7 @@ char	*ft_trim_stat(char *s)
 		j++;
 		i++;
 	}
+	free(dst);
 	s[j] = '\0';
 	return (s);
 }
@@ -50,7 +51,7 @@ char	*make_line(char *stat)
 	j = 0;
 	while (stat && stat[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 1));
+	line = malloc(sizeof(char) * (i + 2));
 	if (!line)
 	{
 		free(stat);
@@ -74,7 +75,7 @@ char	*get_next_line(int fd)
 
 	if (!stat)
 	{
-		stat = malloc(sizeof(char) * 1);
+		stat = malloc(sizeof(char));
 		stat[0] = '\0';
 	}
 	if (!stat || fd < 0 || BUFFER_SIZE < 1)
@@ -82,7 +83,7 @@ char	*get_next_line(int fd)
 	count = 1;
 	while (!(ft_strchr(stat, '\n')) && count != 0)
 	{
-		buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		buff = malloc(sizeof(char) * (BUFFER_SIZE));
 		if (!buff)
 		{
 			free(stat);
@@ -96,3 +97,4 @@ char	*get_next_line(int fd)
 	stat = ft_trim_stat(stat);
 	return (line);
 }
+// Faire un calloc ?
