@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 17:58:21 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/10 18:26:58 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,23 @@ char	*make_line(char *stat)
 
 	i = 0;
 	j = 0;
-	while (stat && stat[i] != '\n')
+	while (stat[i] && stat[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 2));
+	if (stat[i] == '\n')
+		line = malloc(sizeof(char) * (i + 2));
+	else
+		line = malloc(sizeof(char) * (i + 1));
 	if (!line)
-	{
-		free(stat);
 		return (NULL);
-	}
-	while (j <= i)
+	i++;
+	while (stat[j] && stat[j] != '\n')
 	{
 		line[j] = stat[j];
+		j++;
+	}
+	if (stat[j] == '\n')
+	{
+		line[j] = '\n';
 		j++;
 	}
 	line[j] = '\0';
@@ -75,20 +81,20 @@ char	*get_next_line(int fd)
 
 	if (!stat)
 	{
-		stat = malloc(sizeof(char));
+		stat = malloc(sizeof(char) * 1);
 		stat[0] = '\0';
+	}
+	buff = malloc(sizeof(char) * (BUFFER_SIZE));
+	if (!buff)
+	{
+		free(stat);
+		return (NULL);
 	}
 	if (!stat || fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	count = 1;
 	while (!(ft_strchr(stat, '\n')) && count != 0)
 	{
-		buff = malloc(sizeof(char) * (BUFFER_SIZE));
-		if (!buff)
-		{
-			free(stat);
-			return (NULL);
-		}
 		count = read(fd, buff, BUFFER_SIZE);
 		stat = ft_strjoin(stat, buff);
 		free(buff);
@@ -98,3 +104,5 @@ char	*get_next_line(int fd)
 	return (line);
 }
 // Faire un calloc ?
+// Proteger le read en ca de ret -1 (free tout)
+
