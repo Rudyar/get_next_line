@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:31 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 17:58:54 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/11 11:44:04 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,12 @@
 
 size_t	ft_strlen(char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])
 		i++;
 	return (i);
-}
-
-char	*ft_strcpy(char *dest, char *src)
-{
-	int	i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
 }
 
 int	ft_strchr(char *s, char c)
@@ -52,9 +38,9 @@ int	ft_strchr(char *s, char c)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		i;
-	int		j;
-	int		total_len;
+	size_t	i;
+	size_t	j;
+	size_t	total_len;
 	char	*dst;
 
 	i = 0;
@@ -65,12 +51,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	dst = malloc(sizeof(char) * (total_len + 1));
 	if (!dst)
 		return (NULL);
-	while (dst && s1[i])
+	while (s1[i] && dst)
 	{
 		dst[i] = s1[i];
 		i++;
 	}
-	while (dst && s2[j])
+	while (s2[j] && dst)
 	{
 		dst[i + j] = s2[j];
 		j++;

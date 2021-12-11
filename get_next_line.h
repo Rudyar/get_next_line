@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:26 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/10 18:08:50 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/11 11:43:54 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdio.h>
 
 #ifndef GET_NEXT_LINE_H
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 1
 # define GET_NEXT_LINE_H
 
 char	*get_next_line(int fd);
