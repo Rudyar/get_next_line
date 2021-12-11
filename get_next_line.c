@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/11 11:44:50 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/11 13:52:07 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,19 @@ char	*make_line(char *stat)
 	return (line);
 }
 
+char	*ft_error(char *buff, char *stat)
+{
+	free(buff);
+	free(stat);
+	return (NULL);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*stat;
 	char		*buff;
 	char		*line;
 	int			count;
-
 	if (!stat)
 	{
 		stat = malloc(sizeof(char) * 1);
@@ -79,24 +85,16 @@ char	*get_next_line(int fd)
 	}
 	if (!stat || fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	buff = malloc(sizeof(char) * (BUFFER_SIZE));
-	if (!buff)
-	{
-		free(stat);
-		return (NULL);
-	}
 	count = 1;
 	while (!(ft_strchr(stat, '\n')) && count != 0)
 	{
+		buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 		count = read(fd, buff, BUFFER_SIZE);
-		if (count == -1)
-		{
-			free(buff);
-			free(stat);
-			return (NULL);
-		}
+		if (count == -1 || !buff)
+			return (ft_error(buff, stat));
 		stat = ft_strjoin(stat, buff);
-		// free(buff);
+		// printf("%s\n", buff);
+		free(buff);
 	}
 	line = make_line(stat);
 	stat = ft_trim_stat(stat);

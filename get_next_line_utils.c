@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:31 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/11 11:44:04 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/11 12:04:27 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(char *str)
 
 int	ft_strchr(char *s, char c)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (s[i])
@@ -51,16 +51,18 @@ char	*ft_strjoin(char *s1, char *s2)
 	dst = malloc(sizeof(char) * (total_len + 1));
 	if (!dst)
 		return (NULL);
-	while (s1[i] && dst)
+	while (dst && s1[i])
 	{
 		dst[i] = s1[i];
 		i++;
 	}
-	while (s2[j] && dst)
+	while (dst && s2[j])
 	{
 		dst[i + j] = s2[j];
 		j++;
 	}
 	dst[i + j] = '\0';
+	free(s1);
+	// free(s2);
 	return (dst);
 }
