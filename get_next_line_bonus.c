@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/13 14:22:30 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/13 14:15:18 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,22 +93,22 @@ char	*read_line(int fd, char *stat)
 
 char	*get_next_line(int fd)
 {
-	static char	*stat;
+	static char	*stat[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!stat)
+	if (!stat[fd])
 	{
-		stat = malloc(sizeof(char) * 1);
-		if (!stat)
+		stat[fd] = malloc(sizeof(char) * 1);
+		if (!stat[fd])
 			return (NULL);
-		stat[0] = '\0';
+		stat[fd][0] = '\0';
 	}
-	stat = read_line(fd, stat);
-	if (!stat)
+	stat[fd] = read_line(fd, stat[fd]);
+	if (!stat[fd])
 		return (NULL);
-	line = make_line(stat);
-	stat = ft_trim_stat(stat);
+	line = make_line(stat[fd]);
+	stat[fd] = ft_trim_stat(stat[fd]);
 	return (line);
 }
