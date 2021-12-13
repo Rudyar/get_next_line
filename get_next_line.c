@@ -6,11 +6,17 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/11 13:52:07 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/13 13:29:57 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_free(char *s)
+{
+	free(s);
+	return (NULL);
+}
 
 char	*ft_trim_stat(char *s)
 {
@@ -20,18 +26,19 @@ char	*ft_trim_stat(char *s)
 
 	i = 0;
 	j = 0;
-	while (s && s[i] != '\n')
+	while (s[i] != '\0' && s[i] != '\n')
 		i++;
-	i++;
+	if (s[i] == '\0')
+	{
+		free(s);
+		return (NULL);
+	}
 	dst = malloc(sizeof(char) * (ft_strlen(s) - i + 1));
 	if (!dst)
 		return (NULL);
-	while (s[i])
-	{
-		dst[j] = s[i];
-		j++;
-		i++;
-	}
+	i++;
+	while (s[i] != '\0')
+		dst[j++] = s[i++];
 	dst[j] = '\0';
 	free(s);
 	return (dst);
@@ -45,16 +52,17 @@ char	*make_line(char *stat)
 
 	i = 0;
 	j = 0;
-	while (stat[i] && stat[i] != '\n')
-		i++;
-	if (stat[i] == '\n')
-		line = malloc(sizeof(char) * (i + 2));
-	else
-		line = malloc(sizeof(char) * (i + 1));
-	if (!line)
+	if (stat[i] == '\0')
 		return (NULL);
-	i++;
-	while (stat[j] && stat[j] != '\n')
+	while (stat[i] != '\0' && stat[i] != '\n')
+		i++;
+	if (stat[i] == '\0')
+		line = malloc(sizeof(char) * (i + 1));
+	else if (stat[i] == '\n')
+		line = malloc(sizeof(char) * (i + 2));
+	if (!line)
+		return (ft_free(stat));
+	while (stat[j] != '\0' && stat[j] != '\n')
 	{
 		line[j] = stat[j];
 		j++;
@@ -65,37 +73,44 @@ char	*make_line(char *stat)
 	return (line);
 }
 
-char	*ft_error(char *buff, char *stat)
+char	*read_line(int fd, char *stat)
 {
+	int			count;
+	char		*buff;
+
+	count = 1;
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buff)
+		return (NULL);
+	while (ft_strchr(stat, '\n') == 0 && count > 0)
+	{
+		count = read(fd, buff, BUFFER_SIZE);
+		if (count < 0)
+			break ;
+		buff[count] = '\0';
+		stat = ft_strjoin(stat, buff);
+	}
 	free(buff);
-	free(stat);
-	return (NULL);
+	return (stat);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*stat;
-	char		*buff;
 	char		*line;
-	int			count;
+
+	if (fd < 0 || BUFFER_SIZE < 1)
+		return (NULL);
 	if (!stat)
 	{
 		stat = malloc(sizeof(char) * 1);
+		if (!stat)
+			return (NULL);
 		stat[0] = '\0';
 	}
-	if (!stat || fd < 0 || BUFFER_SIZE < 1)
+	stat = read_line(fd, stat);
+	if (!stat)
 		return (NULL);
-	count = 1;
-	while (!(ft_strchr(stat, '\n')) && count != 0)
-	{
-		buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		count = read(fd, buff, BUFFER_SIZE);
-		if (count == -1 || !buff)
-			return (ft_error(buff, stat));
-		stat = ft_strjoin(stat, buff);
-		// printf("%s\n", buff);
-		free(buff);
-	}
 	line = make_line(stat);
 	stat = ft_trim_stat(stat);
 	return (line);
