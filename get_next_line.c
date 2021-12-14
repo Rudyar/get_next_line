@@ -6,7 +6,7 @@
 /*   By: arudy <arudy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 11:35:28 by arudy             #+#    #+#             */
-/*   Updated: 2021/12/13 14:22:30 by arudy            ###   ########.fr       */
+/*   Updated: 2021/12/14 14:00:36 by arudy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*make_line(char *stat)
 		i++;
 	if (stat[i] == '\0')
 		line = malloc(sizeof(char) * (i + 1));
-	else if (stat[i] == '\n')
+	else
 		line = malloc(sizeof(char) * (i + 2));
 	if (!line)
 		return (ft_free(stat));
